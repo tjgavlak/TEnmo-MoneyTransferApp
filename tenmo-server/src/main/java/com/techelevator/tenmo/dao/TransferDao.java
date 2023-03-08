@@ -16,6 +16,6 @@ Transfer createTransfer(Transfer transfer);
 
 void deleteTransfer(int id);
 
-void testForPush(int id);
+
 
 }
