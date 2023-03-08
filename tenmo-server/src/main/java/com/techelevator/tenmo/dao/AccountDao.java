@@ -3,22 +3,26 @@ package com.techelevator.tenmo.dao;
 import com.techelevator.tenmo.model.Account;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public interface AccountDao {
-    Account getAccount(int id);
 
-    Account getAccountByUserId(int id);
+    public List<Account> getAllAccounts();
 
-    Account createAccount(Account account);
+    public Account getAccountById(int id);
 
-    void deleteAccount(int id);
+    public Account getAccountByUserId(int id);
 
-    BigDecimal getBalanceByUserId(int id);
+    /*public Account createAccount(Account account);*/
 
-    BigDecimal getBalanceByAccountId(int id);
+    /*public void deleteAccount(int id);*/
 
-    Account addMoney(int id, BigDecimal amount);
+    public BigDecimal getBalanceByUserId(int id);
 
-    Account subtractMoney(int id, BigDecimal amount);
+    public BigDecimal getBalanceByAccountId(int id);
+
+    public Account addMoney(int id, BigDecimal amount);
+
+    public Account subtractMoney(int id, BigDecimal amount);
 
 }

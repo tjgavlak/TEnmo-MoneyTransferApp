@@ -16,6 +16,4 @@ Transfer createTransfer(Transfer transfer);
 
 void deleteTransfer(int id);
 
-
-
 }
