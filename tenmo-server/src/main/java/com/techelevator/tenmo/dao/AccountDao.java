@@ -25,4 +25,6 @@ public interface AccountDao {
 
     public Account subtractMoney(int id, BigDecimal amount);
 
+    public boolean checkValidTransfer(int id, BigDecimal amount);
+
 }

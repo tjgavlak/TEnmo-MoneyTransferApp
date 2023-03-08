@@ -83,21 +83,28 @@ public class JdbcAccountDao implements AccountDao {
     @Override
     public Account addMoney(int id, BigDecimal amount) {
         String sql = "UPDATE account SET balance = ? WHERE account_id = ?;";
-
-        BigDecimal newBalance = getBalanceByAccountId(id).add(amount);
-
-        jdbcTemplate.update(sql, newBalance, id);
+        jdbcTemplate.update(sql, amount, id);
         return getAccountById(id);
     }
-
+@Override
+public boolean checkValidTransfer(int id, BigDecimal amount){
+        if (amount.compareTo(getBalanceByUserId(id)) > 0){
+            return false;
+        }else {
+            return true;
+        }
+}
     @Override
     public Account subtractMoney(int id, BigDecimal amount) {
-        String sql = "UPDATE account SET balance = ? WHERE account_id = ?;";
 
-        BigDecimal newBalance = getBalanceByAccountId(id).subtract(amount);
+        if (checkValidTransfer(id, amount)) {
+            String sql = "UPDATE account SET balance = (balance - ?) WHERE user_id = ?;";
+            jdbcTemplate.update(sql, amount, id);
 
-        jdbcTemplate.update(sql, newBalance, id);
-        return getAccountById(id);
+        } else {
+            System.out.println("Transaction could not be completed, not enough funds in your account.");
+
+        } return getAccountById(id);
     }
 
     public Account mapRowToAccount(SqlRowSet result){
