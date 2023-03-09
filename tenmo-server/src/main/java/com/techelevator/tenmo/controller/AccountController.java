@@ -6,6 +6,7 @@ import com.techelevator.tenmo.dao.UserDao;
 import com.techelevator.tenmo.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -29,12 +30,12 @@ public class AccountController {
     }
 
     @RequestMapping(path = "/accounts/{id}", method = RequestMethod.GET)
-    public Account getAccountById(@PathVariable("id") int id) {
+    public Account getAccountById(@PathVariable int id) {
         return accountDao.getAccountById(id);
     }
 
     @RequestMapping(path = "/user/{id}", method = RequestMethod.GET)
-    public Account getAccountByUserId(@PathVariable("id") int id) {
+    public Account getAccountByUserId(@PathVariable int id) {
         return accountDao.getAccountByUserId(id);
     }
 
@@ -50,8 +51,9 @@ public class AccountController {
         accountDao.deleteAccount(id);
     }*/
 
-    @RequestMapping(path = "/account/{id}/balance", method = RequestMethod.GET)
-    public BigDecimal getBalance(@PathVariable int id) {
-        return accountDao.getAccountById(id).getBalance();
+    @RequestMapping(path = "/account/balance", method = RequestMethod.GET)
+    public BigDecimal getBalance(Principal principal) throws UsernameNotFoundException {
+        int userId = userDao.findIdByUsername(principal.getName());
+        return accountDao.getAccountByUserId(userId).getBalance();
     }
 }

@@ -15,7 +15,7 @@ public class AccountService {
     public static String AUTH_TOKEN = "";
     private final String BASE_URL;
     private final RestTemplate restTemplate = new RestTemplate();
-    private Account account = new Account();
+//    private Account account = new Account();
 
     public AccountService(String url) {
         this.BASE_URL = url;
@@ -31,7 +31,7 @@ public class AccountService {
     public BigDecimal getBalance() {
         BigDecimal balance = null;
         try {
-            balance = restTemplate.exchange(BASE_URL + "accounts/balance", HttpMethod.GET, makeAccountEntity(), BigDecimal.class).getBody();
+            balance = restTemplate.exchange(BASE_URL + "account/balance", HttpMethod.GET, makeAccountEntity(), BigDecimal.class).getBody();
         } catch (RestClientResponseException | ResourceAccessException ex) {
             BasicLogger.log(ex.getMessage());
         }
