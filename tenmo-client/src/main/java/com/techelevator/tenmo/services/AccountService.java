@@ -9,13 +9,11 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
-import java.math.BigDecimal;
-
 public class AccountService {
 
     private final String API_BASE_URL = "http://localhost:8080/api/account/";
     private RestTemplate restTemplate = new RestTemplate();
-    private AuthenticatedUser userId;
+//    private AuthenticatedUser userId;
     public AccountService(AuthenticatedUser userId){
         this.userId = userId;
     }
@@ -27,7 +25,7 @@ public class AccountService {
     }
 
     public Balance getBalance(AuthenticatedUser authenticatedUser) {
-        HttpEntity entity = makeAuthEntity(authenticatedUser);
+        HttpEntity<Void> entity = makeAccountEntity(authenticatedUser);
         Balance balance = null;
         try {
             balance = restTemplate.exchange(API_BASE_URL + "/balance", HttpMethod.GET, entity, Balance.class).getBody();
@@ -39,7 +37,7 @@ public class AccountService {
 
     public Account getAccountByUserId(AuthenticatedUser authenticatedUser, int userId) {
         Account account = null;
-        HttpEntity entity = makeAuthEntity(authenticatedUser);
+        HttpEntity<Void> entity = makeAccountEntity(authenticatedUser);
         try {
             account = restTemplate.exchange(API_BASE_URL + "user/" + userId, HttpMethod.GET, entity, Account.class).getBody();
 
@@ -53,7 +51,7 @@ public class AccountService {
 
 
 
-    HttpEntity<Void> makeAuthEntity(AuthenticatedUser authenticatedUser) {
+    HttpEntity<Void> makeAccountEntity(AuthenticatedUser authenticatedUser) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(userId.getToken());
         HttpEntity entity = new HttpEntity<>(headers);
