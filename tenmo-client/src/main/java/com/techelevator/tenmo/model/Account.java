@@ -7,6 +7,27 @@ public class Account {
     private int id;
     private int userId;
     private BigDecimal balance;
+    private String username;
+
+    public Account() {
+
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
 
     public int getId() {
         return id;
@@ -24,11 +45,9 @@ public class Account {
         this.userId = userId;
     }
 
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
-    public void setBalance(BigDecimal balance) {
+    public Account(int id, int userId, BigDecimal balance) {
+        this.id = id;
+        this.userId = userId;
         this.balance = balance;
     }
 }

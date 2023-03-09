@@ -9,6 +9,8 @@ public interface AccountDao {
 
     public List<Account> getAllAccounts();
 
+    BigDecimal getBalance(int userId);
+
     public Account getAccountById(int id);
 
     public Account getAccountByUserId(int id);
@@ -17,14 +19,10 @@ public interface AccountDao {
 
     /*public void deleteAccount(int id);*/
 
-    public BigDecimal getBalanceByUserId(int id);
+/*    public Account addMoney(int id, BigDecimal amount);
 
-    public BigDecimal getBalanceByAccountId(int id);
+    public Account subtractMoney(int id, BigDecimal amount);*/
 
-    public Account addMoney(int id, BigDecimal amount);
-
-    public Account subtractMoney(int id, BigDecimal amount);
-
-    public boolean checkValidTransfer(int id, BigDecimal amount);
+//    public boolean checkValidTransfer(int id, BigDecimal amount);
 
 }
