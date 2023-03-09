@@ -14,10 +14,7 @@ public interface AccountDao {
     public Account getAccountById(int id);
 
     public Account getAccountByUserId(int id);
-
-    /*public Account createAccount(Account account);*/
-
-    /*public void deleteAccount(int id);*/
+}
 
 /*    public Account addMoney(int id, BigDecimal amount);
 
@@ -25,4 +22,3 @@ public interface AccountDao {
 
 //    public boolean checkValidTransfer(int id, BigDecimal amount);
 
-}
