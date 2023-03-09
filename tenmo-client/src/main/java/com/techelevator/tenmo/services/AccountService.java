@@ -13,7 +13,7 @@ public class AccountService {
 
     private final String API_BASE_URL = "http://localhost:8080/api/account/";
     private RestTemplate restTemplate = new RestTemplate();
-//    private AuthenticatedUser userId;
+    private AuthenticatedUser userId;
     public AccountService(AuthenticatedUser userId){
         this.userId = userId;
     }
