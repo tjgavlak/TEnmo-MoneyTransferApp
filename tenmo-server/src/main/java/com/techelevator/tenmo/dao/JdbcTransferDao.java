@@ -7,6 +7,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,10 +70,20 @@ public class JdbcTransferDao implements TransferDao{
  }
 
  @Override
+ public void sendTransfer(int sender, int receiver, BigDecimal amount) {
+
+ }
+
+ @Override
+ public void receiveTransfer(int sender, int receiver, BigDecimal amount) {
+
+ }
+
+ /*@Override
  public void deleteTransfer(int id) {
   String sql = "DELETE FROM transfer WHERE transfer_id = ?;";
   jdbcTemplate.update(sql,id);
- }
+ }*/
 
  public Transfer mapRowToTransfer(SqlRowSet results){
   Transfer transfer = new Transfer();

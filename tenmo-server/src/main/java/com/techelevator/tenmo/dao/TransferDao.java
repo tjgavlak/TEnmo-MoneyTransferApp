@@ -9,7 +9,7 @@ import java.util.List;
 public interface TransferDao {
 List<Transfer> getAllTransfers();
 
-List<Transfer> getAllTransfersByUserId(int id);
+List<Transfer> getAllTransfersByAccountId(int id);
 
 Transfer getTransferById(int id);
 
