@@ -2,6 +2,7 @@ package com.techelevator.tenmo.services;
 
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.Balance;
 import com.techelevator.util.BasicLogger;
 import org.springframework.http.*;
 import org.springframework.web.client.ResourceAccessException;
@@ -25,25 +26,22 @@ public class AccountService {
         this.authToken = authToken;
     }
 
-    public BigDecimal getBalance() {
-        BigDecimal balance = new BigDecimal(0);
+    public Balance getBalance(AuthenticatedUser authenticatedUser) {
+        HttpEntity entity = makeAuthEntity(authenticatedUser);
+        Balance balance = null;
         try {
-            balance = restTemplate.exchange(API_BASE_URL + "/balance" + userId.getUser().getId(), HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
+            balance = restTemplate.exchange(API_BASE_URL + "/balance", HttpMethod.GET, entity, Balance.class).getBody();
         } catch (RestClientResponseException | ResourceAccessException ex) {
             BasicLogger.log(ex.getMessage());
         }
         return balance;
     }
 
-    public Account getAccountByUserId(int userId) {
+    public Account getAccountByUserId(AuthenticatedUser authenticatedUser, int userId) {
         Account account = null;
-
+        HttpEntity entity = makeAuthEntity(authenticatedUser);
         try {
-            ResponseEntity<Account> response = restTemplate.exchange(
-                    API_BASE_URL + "user/" + userId,
-                    HttpMethod.GET, makeAuthEntity(), Account.class);
-
-            account = response.getBody();
+            account = restTemplate.exchange(API_BASE_URL + "user/" + userId, HttpMethod.GET, entity, Account.class).getBody();
 
         } catch (RestClientResponseException | ResourceAccessException ex) {
             BasicLogger.log(ex.getMessage());
@@ -51,29 +49,11 @@ public class AccountService {
         return account;
     }
 
-    public void sendTransfer(int senderId, int receiverId, BigDecimal amount){
-        try{
-            ResponseEntity<Void> response = restTemplate.exchange(
-                    API_BASE_URL + "send/" + senderId + "/" + receiverId + "/" + amount,
-                    HttpMethod.POST, makeAuthEntity(), Void.class);
-        } catch (RestClientResponseException | ResourceAccessException ex) {
-            BasicLogger.log(ex.getMessage());
-        }
-    }
-
-    public void receiveTransfer(int receiverId, int senderId, BigDecimal amount){
-        try{
-            ResponseEntity<Void> response = restTemplate.exchange(
-                    API_BASE_URL + "receive/" + receiverId + "/" + senderId + "/" + amount,
-                    HttpMethod.POST, makeAuthEntity(), Void.class);
-        } catch (RestClientResponseException | ResourceAccessException ex) {
-            BasicLogger.log(ex.getMessage());
-        }
-    }
 
 
 
-    HttpEntity<Void> makeAuthEntity() {
+
+    HttpEntity<Void> makeAuthEntity(AuthenticatedUser authenticatedUser) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(userId.getToken());
         HttpEntity entity = new HttpEntity<>(headers);

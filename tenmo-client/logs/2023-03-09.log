@@ -12,3 +12,7 @@
 2023-03-09T12:03:17.1541915 404 : [{"timestamp":"2023-03-09T17:03:17.152+00:00","status":404,"error":"Not Found","message":"No message available","path":"/api/account/user/1002/balance"}]
 2023-03-09T12:09:04.421541 404 : [{"timestamp":"2023-03-09T17:09:04.404+00:00","status":404,"error":"Not Found","message":"No message available","path":"/api/account/balance1002"}]
 2023-03-09T12:09:04.4389984 404 : [{"timestamp":"2023-03-09T17:09:04.435+00:00","status":404,"error":"Not Found","message":"No message available","path":"/api/account/balance1002"}]
+2023-03-09T12:15:26.9072653 I/O error on POST request for "http://localhost:8080/register": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2023-03-09T12:15:56.8479441 I/O error on POST request for "http://localhost:8080/login": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2023-03-09T12:22:35.1040676 I/O error on POST request for "http://localhost:8080/register": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2023-03-09T13:09:34.0478432 I/O error on POST request for "http://localhost:8080/register": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
