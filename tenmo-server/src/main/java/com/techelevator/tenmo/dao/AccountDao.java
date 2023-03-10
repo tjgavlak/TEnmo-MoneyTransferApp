@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface AccountDao {
 
-    public List<Account> getAllAccounts();
+    List<Account> getAllAccounts();
 
-    public BigDecimal getBalance(int userId);
+    BigDecimal getBalance(int userId);
 
-    public Account getAccountById(int id);
+    Account getAccountById(int id);
 
-    public Account getAccountByUserId(int id);
+    Account getAccountByUserId(int id);
 }
 
 /*    public Account addMoney(int id, BigDecimal amount);

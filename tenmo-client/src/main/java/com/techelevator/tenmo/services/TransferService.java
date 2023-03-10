@@ -12,18 +12,14 @@ import org.springframework.web.client.RestTemplate;
 import java.math.BigDecimal;
 
 public class TransferService {
-    public static String AUTH_TOKEN = "";
     private final String BASE_URL;
     private final RestTemplate restTemplate = new RestTemplate();
-    private String authToken;
+    public static String authToken;
 
     public TransferService(String url) {
         this.BASE_URL = url;
     }
 
-    public void setAuthToken(AuthenticatedUser authenticatedUser) {
-        this.authToken = authToken;
-    }
 
     public void sendMoney(Transfer transfer){
         try{
@@ -37,7 +33,7 @@ public class TransferService {
         Transfer[] transfers = null;
         try {
             ResponseEntity<Transfer[]> response =
-                    restTemplate.exchange(BASE_URL + "transfer/history/", HttpMethod.GET, makeAuthEntity(), Transfer[].class);
+                    restTemplate.exchange(BASE_URL + "transfer", HttpMethod.GET, makeAuthEntity(), Transfer[].class);
             transfers = response.getBody();
         } catch (RestClientResponseException | ResourceAccessException ex) {
             BasicLogger.log(ex.getMessage());

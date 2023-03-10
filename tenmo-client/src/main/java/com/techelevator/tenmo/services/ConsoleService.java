@@ -1,6 +1,8 @@
 package com.techelevator.tenmo.services;
 
 
+import com.techelevator.tenmo.model.Transfer;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 
 import java.math.BigDecimal;
@@ -46,6 +48,25 @@ public class ConsoleService {
         System.out.println();
     }
 
+    public void printTransferDetails(Transfer chosenTransfer) {
+        System.out.println("------------------------------------------------------------");
+        System.out.println("Transfer Details");
+        System.out.println("------------------------------------------------------------");
+        System.out.println("ID: " + chosenTransfer.getTransferId());
+        System.out.println("From: " + chosenTransfer.getAccountFromUsername());
+        System.out.println("To: " + chosenTransfer.getAccountToUsername());
+        System.out.println("Type: " + chosenTransfer.getTransferTypeId());
+        System.out.println("Status: " + chosenTransfer.getTransferStatusId());
+        System.out.println("Amount: $" + chosenTransfer.getAmount());
+    }
+
+    public void printTransferListHeader() {
+        System.out.println("------------------------------------------------------------");
+        System.out.println("Transfer List");
+        System.out.println("ID          From/To          Amount");
+        System.out.println("------------------------------------------------------------");
+    }
+
     public UserCredentials promptForCredentials() {
         String username = promptForString("Username: ");
         String password = promptForString("Password: ");
@@ -86,6 +107,18 @@ public class ConsoleService {
 
     public void printErrorMessage() {
         System.out.println("An error occurred. Check the log for details.");
+    }
+
+    public int userIdForSendMoney(User[] users) {
+        System.out.println("---------------------------------------------");
+        System.out.println("Users");
+        System.out.println("ID          Name");
+        System.out.println("---------------------------------------------");
+
+        for (int i = 0; i < users.length; i++) {
+            System.out.println(users[i].selectionPrint());
+        }
+        return promptForInt("Please enter User ID: ");
     }
 
 }

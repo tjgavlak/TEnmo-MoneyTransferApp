@@ -5,32 +5,27 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
 public class Transfer {
-    private int id;
-    @JsonProperty("transfer_type_id")
+    private int transferId;
     private int transferTypeId;
-    @JsonProperty("transfer_status_id")
+    private String transferType;
+    private int statusId;
     private int transferStatusId;
-    @JsonProperty("account_from")
-    private int accountFrom;
-    @JsonProperty("account_to")
-    private int accountTo;
-
+    private String transferStatus;
+    private int fromUserId;
+    private int toUserId;
+    private String accountFromUsername;
+    private String accountToUsername;
     private BigDecimal amount;
 
-    public Transfer(int transferTypeId, int transferStatusId, int accountFrom, int accountTo, BigDecimal amount){
-        this.transferTypeId  = transferTypeId;
-        this.transferStatusId = transferStatusId;
-        this.accountFrom = accountFrom;
-        this.accountTo = accountTo;
-        this.amount = amount;
+    public Transfer(){
     }
 
-    public int getId() {
-        return id;
+    public int getTransferId() {
+        return transferId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setTransferId(int transferId) {
+        this.transferId = transferId;
     }
 
     public int getTransferTypeId() {
@@ -41,6 +36,22 @@ public class Transfer {
         this.transferTypeId = transferTypeId;
     }
 
+    public String getTransferType() {
+        return transferType;
+    }
+
+    public void setTransferType(String transferType) {
+        this.transferType = transferType;
+    }
+
+    public int getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(int statusId) {
+        this.statusId = statusId;
+    }
+
     public int getTransferStatusId() {
         return transferStatusId;
     }
@@ -49,20 +60,12 @@ public class Transfer {
         this.transferStatusId = transferStatusId;
     }
 
-    public int getAccountFrom() {
-        return accountFrom;
+    public String getTransferStatus() {
+        return transferStatus;
     }
 
-    public void setAccountFrom(int accountFrom) {
-        this.accountFrom = accountFrom;
-    }
-
-    public int getAccountTo() {
-        return accountTo;
-    }
-
-    public void setAccountTo(int accountTo) {
-        this.accountTo = accountTo;
+    public void setTransferStatus(String transferStatus) {
+        this.transferStatus = transferStatus;
     }
 
     public BigDecimal getAmount() {
@@ -73,12 +76,52 @@ public class Transfer {
         this.amount = amount;
     }
 
-    @Override
+    public String getAccountFromUsername() {
+        return accountFromUsername;
+    }
+
+    public void setAccountFromUsername(String accountFromUsername) {
+        this.accountFromUsername = accountFromUsername;
+    }
+
+    public String getAccountToUsername() {
+        return accountToUsername;
+    }
+
+    public void setAccountToUsername(String accountToUsername) {
+        this.accountToUsername = accountToUsername;
+    }
+
+    public int getFromUserId() {
+        return fromUserId;
+    }
+
+    public void setFromUserId(int fromUserId) {
+        this.fromUserId = fromUserId;
+    }
+
+    public int getToUserId() {
+        return toUserId;
+    }
+
+    public void setToUserId(int toUserId) {
+        this.toUserId = toUserId;
+    }
+
+    public String sendPrint(String username){
+        return String.format("%-10s %-5s %-10s %s %-7.2f", transferId, "To:", username, "$", amount);
+    }
+
+    public String receivePrint(String username){
+        return String.format("%-10s %-5s %-10s %s %-7.2f", transferId, "To:", username, "$", amount);
+    }
+
+    /*@Override
     public String toString(){
-        return "Transfer{id=" + id + ", transferTypeId=" + transferTypeId +
+        return "Transfer{id=" + transferId + ", transferTypeId=" + transferTypeId +
                 ", transferStatusId=" + transferStatusId +
                 ", accountFrom=" + accountFrom +
                 ", accountTo=" + accountTo +
                 ", amount=" + amount + '}';
-    }
+    }*/
 }

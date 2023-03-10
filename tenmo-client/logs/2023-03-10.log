@@ -1,0 +1,7 @@
+2023-03-10T10:09:44.4745551 401 : [{"timestamp":"2023-03-10T15:09:44.450+00:00","status":401,"error":"Unauthorized","message":"Full authentication is required to access this resource","path":"/account/balance"}]
+2023-03-10T11:27:14.7686703 404 : [{"timestamp":"2023-03-10T16:27:14.742+00:00","status":404,"error":"Not Found","message":"No message available","path":"/transfer/history/"}]
+2023-03-10T11:27:48.0159336 404 : [{"timestamp":"2023-03-10T16:27:47.999+00:00","status":404,"error":"Not Found","message":"No message available","path":"/transfer/history/"}]
+2023-03-10T11:28:29.7726679 404 : [{"timestamp":"2023-03-10T16:28:29.754+00:00","status":404,"error":"Not Found","message":"No message available","path":"/transfer/history/"}]
+2023-03-10T12:01:11.7298075 400 : [{"timestamp":"2023-03-10T17:01:11.705+00:00","status":400,"error":"Bad Request","message":"Failed to convert value of type 'java.lang.String' to required type 'int'; nested exception is java.lang.NumberFormatException: For input string: \"account\"","path":"/user/account/"}]
+2023-03-10T12:01:11.7535159 400 : [{"timestamp":"2023-03-10T17:01:11.751+00:00","status":400,"error":"Bad Request","message":"Failed to convert value of type 'java.lang.String' to required type 'int'; nested exception is java.lang.NumberFormatException: For input string: \"allusers\"","path":"/user/allusers/"}]
+2023-03-10T12:11:09.4395905 404 : [{"timestamp":"2023-03-10T17:11:09.411+00:00","status":404,"error":"Not Found","message":"No message available","path":"/transfer"}]
