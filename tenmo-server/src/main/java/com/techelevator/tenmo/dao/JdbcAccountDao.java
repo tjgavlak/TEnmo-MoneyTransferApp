@@ -1,8 +1,11 @@
 package com.techelevator.tenmo.dao;
 import com.techelevator.tenmo.model.Account;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.ResourceAccessException;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,46 +21,81 @@ public class JdbcAccountDao implements AccountDao {
 
     @Override
     public List<Account> getAllAccounts() {
-        List<Account> account = new ArrayList<>();
-        String sql = "SELECT * FROM account;";
-        SqlRowSet result = jdbcTemplate.queryForRowSet(sql);
-        while(result.next()){
-            Account accountResult = mapRowToAccount(result);
-            account.add(accountResult);
+        List<Account> accounts = new ArrayList<>();
+        String sql = "SELECT user_id, account_id FROM account;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while(results.next()){
+            accounts.add(mapRowToAccount(results));
         }
-        return account;
+        return accounts;
     }
 
     @Override
     public BigDecimal getBalance(int userId) {
+        BigDecimal balance = null;
         String sql = "SELECT balance FROM account WHERE user_id = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
-        BigDecimal balance = null;
-
         if (results.next()) {
-            balance = results.getBigDecimal("balance");
+            balance = mapRowToAccount(results).getBalance();
         }
         return balance;
     }
 
     @Override
-    public Account getAccountById(int id) {
-        String sql = "SELECT account_id, user_id, balance FROM account WHERE account_id = ?;";
-        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, id);
+    public Account getAccountByUsername(String username) {
+        Account account = new Account();
+        String sql = "SELECT a.* " +
+                "FROM account a " +
+                "JOIN tenmo_user t USING (user_id) " +
+                "WHERE t.username = ?; ";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, username);
         if(result.next()){
-            return mapRowToAccount(result);
+            account = mapRowToAccount(result);
         }
-        return null;
+        return account;
     }
 
     @Override
     public Account getAccountByUserId(int id) {
+        Account account = new Account();
         String sql = "SELECT * FROM account WHERE user_id = ?;";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, id);
         if (result.next()){
-            return mapRowToAccount(result);
+            account = mapRowToAccount(result);
         }
-        return null;
+        return account;
+    }
+
+    @Override
+    public BigDecimal addToBalance(BigDecimal deposit, int userId) {
+        Account account = getAccountByUserId(userId);
+        String sql = "UPDATE account " +
+                "SET balance = balance + ? " +
+                "WHERE user_id = ?; ";
+        try {
+            int output = jdbcTemplate.update(sql, deposit, userId);
+            System.out.println("deposit rows affected: " + output);
+        } catch (DataAccessException | ResourceAccessException e){
+            e.printStackTrace();
+            System.out.println("Unable to update balance");
+        }
+        return account.getBalance();
+    }
+
+    @Override
+    public BigDecimal subtractFromBalance(BigDecimal withdraw, int userId) {
+        Account account = getAccountByUserId(userId);
+        String sql = "UPDATE account " +
+                "SET balance = balance - ? " +
+                "WHERE user_id = ?; ";
+        try {
+            int output = jdbcTemplate.update(sql, withdraw, userId);
+            System.out.println("withdraw rows affected: " + output);
+        } catch (DataAccessException e){
+            e.printStackTrace();
+            System.out.println("unable to update balance");
+        }
+        return account.getBalance();
     }
 
     public Account mapRowToAccount(SqlRowSet result){

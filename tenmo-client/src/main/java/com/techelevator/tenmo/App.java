@@ -1,10 +1,7 @@
 package com.techelevator.tenmo;
 
-import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.*;
 
-import com.techelevator.tenmo.model.Transfer;
-import com.techelevator.tenmo.model.User;
-import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
@@ -12,6 +9,8 @@ import com.techelevator.tenmo.services.TransferService;
 
 import java.math.BigDecimal;
 import java.util.List;
+
+import static com.techelevator.tenmo.services.AccountService.authToken;
 
 public class App {
 
@@ -68,7 +67,7 @@ public class App {
     private void handleLogin() {
         UserCredentials credentials = consoleService.promptForCredentials();
         currentUser = authenticationService.login(credentials);
-        AccountService.authToken = currentUser.getToken();
+        authToken = currentUser.getToken();
         if (currentUser == null) {
             consoleService.printErrorMessage();
         }
@@ -99,95 +98,40 @@ public class App {
     }
 
 	private void viewCurrentBalance() {
-        // TODO Auto-generated method stub
-        System.out.println("Your account balance is: " + "$" + accountService.getBalance());
+        System.out.println("Your account balance is: " + "$" + accountService.getBalance(authToken));
     }
 
-	private void viewTransferHistory() {
+	private void viewTransferHistory() { //TODO Fix NullPointerException
 		// TODO Auto-generated method stub
-        Transfer[] transfers = transferService.userTransfers(user);
-        for(Transfer transfer : transfers) {
+        Transfer[] transferList = transferService.getTransferHistory(currentUser.getToken());
+        consoleService.printTransferListHeader(transferList);
+        for (Transfer transfer : transferList) {
             System.out.println(transfer);
         }
-        /*User activeUser = setActiveUser();
-        List<Transfer> transfers = List.of(transferService.userTransfers(activeUser));
-        consoleService.printTransferListHeader();
-        for(Transfer transfer : transfers) {
-            if (transfer.getFromUserId() == activeUser.getId()) {
-                List<User> users  = List.of(accountService.getUsers());
-                User receivingUser = users.stream().filter(user -> user.getId() == transfer.getToUserId()).findAny().orElse(null);
-                System.out.println(transfer.sendPrint(receivingUser.getUsername()));
-            } else if (transfer.getToUserId() == activeUser.getId()) {
-                List<User> users = List.of(accountService.getUsers());
-                User sendingUser = users.stream().filter(user -> user.getId() == transfer.getFromUserId()).findAny().orElse(null);
-                System.out.println(transfer.receivePrint(sendingUser.getUsername()));
-            }*/
-
-        boolean running = true;
-        while(running){
-            int choice = consoleService.promptForInt("Please enter transfer ID to view details or (0) to cancel: ");
-            if (choice == 0) {
-                running = false;
-            } else {
-                System.out.println("Please enter a Transfer ID from the list.");
-            }
-        }
-	}
+    }
 
 	private void viewPendingRequests() {
 		// TODO Auto-generated method stub
 		
-	}
+	} //Optional
 
-	private void sendBucks() {
+	private void sendBucks() { //TODO Fix NullPointerException
 		// TODO Auto-generated method stub
-        User activeUser = setActiveUser();
-        List<User> users = List.of(accountService.getUsers());
-        int choice = chooseFromAvailableUsers();
-        Transfer transfer = sendMoneyTransfer(activeUser);
-        User receivingUser = users.stream().filter(user -> user.getId() == choice).findAny().orElse(null);
-	}
-
-    private void receivingUser(User receivingUser, User sendingUser, Transfer transfer) {
-        if(receivingUser != null){
-            transfer.setToUserId(receivingUser.getId());
-            boolean running = true;
-            while(running){
-                transfer.setAmount(consoleService.promptForBigDecimal("Please enter in a dollar amount: "));
-                if(sendingUser.getAccountBalance().compareTo(transfer.getAmount()) >= 0 && transfer.getAmount().compareTo(BigDecimal.ZERO) > 0) {
-                    transferService.sendMoney(transfer);
-                    running = false;
-                } else if (transfer.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
-                    System.out.println("Please enter a valid number greater than zero.");
-                } else {
-                    System.out.println("Insufficient funds for entered amount\n");
-                }
-            }
-        } else {
-            System.out.println("Please enter a valid User ID");
-            sendBucks();
+        List<Account> accounts = accountService.listAccounts(currentUser.getToken());
+        for (int i = 0; i < accounts.size(); i++) {
+            System.out.println(accounts.get(i));
         }
-    }
+        int toId = consoleService.promptForInt("Select userId from above list: ");
+        BigDecimal transferAmount = consoleService.promptForBigDecimal("Enter amount to transfer: ");
+        Transfer transfer = new Transfer();
+        transfer.setAmount(transferAmount);
+        transfer.setAccountToUsername(String.valueOf(toId));
+        transfer.setAccountFromUsername(currentUser.getUser().getUsername());
+        transferService.sendMoney(currentUser.getToken(), transfer);
+	}
 
 	private void requestBucks() {
 		// TODO Auto-generated method stub
 		
-	}
-
-    public Transfer sendMoneyTransfer(User user){
-        Transfer transfer = new Transfer();
-        transfer.setTransferTypeId(TYPE_SEND);
-        transfer.setTransferStatusId(APPROVED_STATUS);
-        transfer.setFromUserId(user.getId());
-        return transfer;
-    }
-
-    public int chooseFromAvailableUsers(){
-        return consoleService.userIdForSendMoney(accountService.getUsers());
-    }
-
-    private User setActiveUser() {
-        return accountService.getUser(currentUser.getUser().getUsername());
-    }
-
+	} //Optional
 }

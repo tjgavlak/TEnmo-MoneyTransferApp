@@ -1,17 +1,28 @@
 package com.techelevator.tenmo.model;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 public class Transfer {
+    @Min(value = 1, message = "Transfer ID should Be a Positive Number.")
     private int transferId;
+
+    @Min(value = 1, message = "Transfer ID Should Be a Positive Number.")
     private int transferTypeId;
     private String transferType;
     private int transferStatusId;
     private String transferStatus;
+
+    @Min(value = 1, message = "Account From Should Be a Positive Number.")
     private int fromUserId;
-    private int toUserId;
     private String accountFromUsername;
+
+    @Min(value = 1, message = "Account To Should Be a Positive Number.")
+    private int toUserId;
     private String accountToUsername;
+
+    @Positive(message = "The Amount Transferring Must Be > 0.")
     private BigDecimal transferAmount;
 
 

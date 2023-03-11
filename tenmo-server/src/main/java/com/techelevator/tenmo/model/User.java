@@ -8,7 +8,6 @@ import java.util.Objects;
 import java.util.Set;
 
 public class User {
-
    private int id;
    private String username;
    @JsonIgnore // prevent from being sent to client
@@ -16,7 +15,7 @@ public class User {
    @JsonIgnore
    private boolean activated;
    private Set<Authority> authorities = new HashSet<>();
-   private BigDecimal balance;
+//   private BigDecimal balance;
 
    public User() { }
 
@@ -28,13 +27,13 @@ public class User {
       this.activated = true;
    }
 
-   public BigDecimal getBalance() {
+   /*public BigDecimal getBalance() {
       return balance;
    }
 
    public void setBalance(BigDecimal balance) {
       this.balance = balance;
-   }
+   }*/
 
    public int getId() {
       return id;

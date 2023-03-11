@@ -7,12 +7,12 @@ import com.techelevator.util.BasicLogger;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class AccountService {
     public static String authToken;
@@ -23,40 +23,30 @@ public class AccountService {
         this.BASE_URL = url;
     }
 
-    private HttpEntity makeAuthEntity() {
+    private HttpEntity makeAuthEntity(String authToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(authToken);
         return new HttpEntity<>(headers);
     }
 
-    public User[] getUsers(){
-        User[] users = null;
-        try{
-            users = restTemplate.exchange(BASE_URL + "user/allusers/", HttpMethod.GET, makeAuthEntity(), User[].class).getBody();
-        } catch (RestClientResponseException | ResourceAccessException ex) {
-            BasicLogger.log(ex.getMessage());
-        }
-        return users;
-    }
-
-    public User getUser(String username){
-        User user = null;
-        try{
-            user = restTemplate.exchange(BASE_URL + "user/account/", HttpMethod.GET, makeAuthEntity(), User.class).getBody();
-        } catch (RestClientResponseException | ResourceAccessException ex) {
-            BasicLogger.log(ex.getMessage());
-        }
-        return user;
-    }
-
-    public BigDecimal getBalance() {
+    public BigDecimal getBalance(String authToken) {
         BigDecimal balance = null;
         try {
-            balance = restTemplate.exchange(BASE_URL + "account/balance", HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
+            balance = restTemplate.exchange(BASE_URL + "account/balance", HttpMethod.GET, makeAuthEntity(authToken), BigDecimal.class).getBody();
         } catch (RestClientResponseException | ResourceAccessException ex) {
             BasicLogger.log(ex.getMessage());
         }
         return balance;
+    }
+
+    public List<Account> listAccounts(String authToken){
+        List allAccounts = null;
+        try {
+            allAccounts = restTemplate.exchange(BASE_URL + "users", HttpMethod.GET, makeAuthEntity(authToken), List.class).getBody();
+        } catch (ResourceAccessException | RestClientResponseException e) {
+            System.out.println(e.getMessage());
+        }
+        return allAccounts;
     }
 }
 

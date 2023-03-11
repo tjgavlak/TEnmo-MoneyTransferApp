@@ -6,6 +6,7 @@ import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleService {
@@ -60,11 +61,14 @@ public class ConsoleService {
         System.out.println("Amount: $" + chosenTransfer.getAmount());
     }
 
-    public void printTransferListHeader() {
+    public void printTransferListHeader(Transfer[] transfers) {
         System.out.println("------------------------------------------------------------");
         System.out.println("Transfer List");
         System.out.println("ID          From/To          Amount");
         System.out.println("------------------------------------------------------------");
+        for (Transfer transfer : transfers){
+            System.out.println();
+        }
     }
 
     public UserCredentials promptForCredentials() {
@@ -109,16 +113,5 @@ public class ConsoleService {
         System.out.println("An error occurred. Check the log for details.");
     }
 
-    public int userIdForSendMoney(User[] users) {
-        System.out.println("---------------------------------------------");
-        System.out.println("Users");
-        System.out.println("ID          Name");
-        System.out.println("---------------------------------------------");
-
-        for (int i = 0; i < users.length; i++) {
-            System.out.println(users[i].selectionPrint());
-        }
-        return promptForInt("Please enter User ID: ");
-    }
 
 }

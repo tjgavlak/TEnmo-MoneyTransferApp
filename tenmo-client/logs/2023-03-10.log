@@ -5,3 +5,8 @@
 2023-03-10T12:01:11.7298075 400 : [{"timestamp":"2023-03-10T17:01:11.705+00:00","status":400,"error":"Bad Request","message":"Failed to convert value of type 'java.lang.String' to required type 'int'; nested exception is java.lang.NumberFormatException: For input string: \"account\"","path":"/user/account/"}]
 2023-03-10T12:01:11.7535159 400 : [{"timestamp":"2023-03-10T17:01:11.751+00:00","status":400,"error":"Bad Request","message":"Failed to convert value of type 'java.lang.String' to required type 'int'; nested exception is java.lang.NumberFormatException: For input string: \"allusers\"","path":"/user/allusers/"}]
 2023-03-10T12:11:09.4395905 404 : [{"timestamp":"2023-03-10T17:11:09.411+00:00","status":404,"error":"Not Found","message":"No message available","path":"/transfer"}]
+2023-03-10T17:34:52.8543811 404 : [{"timestamp":"2023-03-10T22:34:52.837+00:00","status":404,"error":"Not Found","message":"No message available","path":"/account/balance"}]
+2023-03-10T17:39:44.3980416 404 : [{"timestamp":"2023-03-10T22:39:44.381+00:00","status":404,"error":"Not Found","message":"No message available","path":"/account/balance"}]
+2023-03-10T17:41:50.2985365 404 : [{"timestamp":"2023-03-10T22:41:50.282+00:00","status":404,"error":"Not Found","message":"No message available","path":"/account/balance"}]
+2023-03-10T18:34:13.8600851 I/O error on POST request for "http://localhost:8080/login": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2023-03-10T21:12:00.0346242 404 : [{"timestamp":"2023-03-11T02:12:00.013+00:00","status":404,"error":"Not Found","message":"No message available","path":"/transfer/history"}]
