@@ -1,12 +1,12 @@
 package com.techelevator.tenmo.services;
 
+import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.util.BasicLogger;
 import org.springframework.http.*;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
-import java.util.List;
 
 
 public class TransferService {
@@ -28,11 +28,20 @@ public class TransferService {
         return transfers;
     }
 
-    public boolean sendMoney(String authToken, Transfer newTransfer){
-        boolean returnedTransfer = false;
+    public Transfer getOneTransfer(int transferId){
+        Transfer returnedTransfer = null;
+        try {
+            returnedTransfer = restTemplate.exchange(BASE_URL + "transfer/history" + transferId, HttpMethod.GET, makeAuthEntity(authToken), Transfer.class).getBody();
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return returnedTransfer;
+    }
+
+    public Transfer sendMoney(String authToken, Transfer newTransfer){
+        Transfer returnedTransfer = null;
         try{
-            restTemplate.exchange(BASE_URL + "/send", HttpMethod.POST, makeTransferEntity(newTransfer, authToken), Void.class).getBody();
-            returnedTransfer = true;
+            returnedTransfer = restTemplate.exchange(BASE_URL + "send", HttpMethod.POST, makeTransferEntity(newTransfer, authToken), Transfer.class).getBody();
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }

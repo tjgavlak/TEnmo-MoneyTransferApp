@@ -1,0 +1,6 @@
+2023-03-11T14:15:59.2791894 404 : [{"timestamp":"2023-03-11T19:15:59.263+00:00","status":404,"error":"Not Found","message":"No message available","path":"/account/balance"}]
+2023-03-11T14:54:06.1650317 404 : [{"timestamp":"2023-03-11T19:54:06.149+00:00","status":404,"error":"Not Found","message":"No message available","path":"/transfer/history"}]
+2023-03-11T14:57:41.4160497 404 : [{"timestamp":"2023-03-11T19:57:41.406+00:00","status":404,"error":"Not Found","message":"No message available","path":"/transfer/history"}]
+2023-03-11T15:35:21.1339324 404 : [{"timestamp":"2023-03-11T20:35:21.113+00:00","status":404,"error":"Not Found","message":"No message available","path":"/transfer/history"}]
+2023-03-11T16:18:00.7420991 404 : [{"timestamp":"2023-03-11T21:18:00.722+00:00","status":404,"error":"Not Found","message":"No message available","path":"/transfer/history"}]
+2023-03-11T16:29:54.5743183 404 : [{"timestamp":"2023-03-11T21:29:54.554+00:00","status":404,"error":"Not Found","message":"No message available","path":"/transfer/history"}]

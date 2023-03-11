@@ -7,18 +7,15 @@ import java.math.BigDecimal;
 public class Transfer {
     private int transferId;
     private int transferTypeId;
-    /*private String transferType;*/
-    private int statusId;
     private int transferStatusId;
-    /*private String transferStatus;
-    private int fromUserId;
-    private int toUserId;*/
-    private String accountFromUsername;
-    private String accountToUsername;
+    private int accountFrom;
+    private int accountTo;
     private BigDecimal amount;
 
     public Transfer(){
     }
+
+    public Transfer(int transferId, int transferTypeId, int transferStatusId, int accountFrom, int accountTo){}
 
     public int getTransferId() {
         return transferId;
@@ -36,22 +33,6 @@ public class Transfer {
         this.transferTypeId = transferTypeId;
     }
 
-    /*public String getTransferType() {
-        return transferType;
-    }
-
-    public void setTransferType(String transferType) {
-        this.transferType = transferType;
-    }*/
-
-    public int getStatusId() {
-        return statusId;
-    }
-
-    public void setStatusId(int statusId) {
-        this.statusId = statusId;
-    }
-
     public int getTransferStatusId() {
         return transferStatusId;
     }
@@ -60,13 +41,21 @@ public class Transfer {
         this.transferStatusId = transferStatusId;
     }
 
-    /*public String getTransferStatus() {
-        return transferStatus;
+    public int getAccountFrom() {
+        return accountFrom;
     }
 
-    public void setTransferStatus(String transferStatus) {
-        this.transferStatus = transferStatus;
-    }*/
+    public void setAccountFrom(int accountFrom) {
+        this.accountFrom = accountFrom;
+    }
+
+    public int getAccountTo() {
+        return accountTo;
+    }
+
+    public void setAccountTo(int accountTo) {
+        this.accountTo = accountTo;
+    }
 
     public BigDecimal getAmount() {
         return amount;
@@ -76,45 +65,12 @@ public class Transfer {
         this.amount = amount;
     }
 
-    public String getAccountFromUsername() {
-        return accountFromUsername;
-    }
-
-    public void setAccountFromUsername(String accountFromUsername) {
-        this.accountFromUsername = accountFromUsername;
-    }
-
-    public String getAccountToUsername() {
-        return accountToUsername;
-    }
-
-    public void setAccountToUsername(String accountToUsername) {
-        this.accountToUsername = accountToUsername;
-    }
-
-    /*public int getFromUserId() {
-        return fromUserId;
-    }
-
-    public void setFromUserId(int fromUserId) {
-        this.fromUserId = fromUserId;
-    }
-
-    public int getToUserId() {
-        return toUserId;
-    }
-
-    public void setToUserId(int toUserId) {
-        this.toUserId = toUserId;
-    }*/
-
-
     @Override
     public String toString(){
         return "Transfer{id=" + transferId + ", transferTypeId=" + transferTypeId +
                 ", transferStatusId=" + transferStatusId +
-                ", accountFrom=" + accountFromUsername +
-                ", accountTo=" + accountToUsername +
+                ", accountFrom=" + accountFrom +
+                ", accountTo=" + accountTo +
                 ", amount=" + amount + '}';
     }
 }

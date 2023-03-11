@@ -32,7 +32,7 @@ public class JdbcAccountDao implements AccountDao {
 
     @Override
     public BigDecimal getBalance(int userId) {
-        BigDecimal balance = null;
+        BigDecimal balance = BigDecimal.valueOf(0);
         String sql = "SELECT balance FROM account WHERE user_id = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
         if (results.next()) {

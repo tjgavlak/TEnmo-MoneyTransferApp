@@ -1,13 +1,11 @@
 package com.techelevator.tenmo.model;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 public class User {
 
     private int id;
     private String username;
-    private BigDecimal accountBalance;
 
     public int getId() {
         return id;
@@ -36,20 +34,8 @@ public class User {
         }
     }
 
-    public BigDecimal getAccountBalance() {
-        return accountBalance;
-    }
-
-    public void setAccountBalance(BigDecimal accountBalance) {
-        this.accountBalance = accountBalance;
-    }
-
     @Override
     public int hashCode() {
         return Objects.hash(id, username);
-    }
-
-    public String selectionPrint(){
-        return id + " " + username;
     }
 }

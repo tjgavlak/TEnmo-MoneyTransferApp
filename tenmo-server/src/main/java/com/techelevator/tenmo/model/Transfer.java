@@ -8,23 +8,20 @@ public class Transfer {
     @Min(value = 1, message = "Transfer ID should Be a Positive Number.")
     private int transferId;
 
-    @Min(value = 1, message = "Transfer ID Should Be a Positive Number.")
+    @Min(value = 1, message = "Transfer Type ID Should Be a Positive Number.")
     private int transferTypeId;
-    private String transferType;
+
+    @Min(value = 1, message = "Transfer Status ID Should Be a Positive Number.")
     private int transferStatusId;
-    private String transferStatus;
 
     @Min(value = 1, message = "Account From Should Be a Positive Number.")
-    private int fromUserId;
-    private String accountFromUsername;
+    private int accountFrom;
 
     @Min(value = 1, message = "Account To Should Be a Positive Number.")
-    private int toUserId;
-    private String accountToUsername;
+    private int accountTo;
 
     @Positive(message = "The Amount Transferring Must Be > 0.")
     private BigDecimal transferAmount;
-
 
     public int getTransferId() {
         return transferId;
@@ -42,14 +39,6 @@ public class Transfer {
         this.transferTypeId = transferTypeId;
     }
 
-    public String getTransferType() {
-        return transferType;
-    }
-
-    public void setTransferType(String transferType) {
-        this.transferType = transferType;
-    }
-
     public int getTransferStatusId() {
         return transferStatusId;
     }
@@ -58,44 +47,20 @@ public class Transfer {
         this.transferStatusId = transferStatusId;
     }
 
-    public String getTransferStatus() {
-        return transferStatus;
+    public int getAccountFrom() {
+        return accountFrom;
     }
 
-    public void setTransferStatus(String transferStatus) {
-        this.transferStatus = transferStatus;
+    public void setAccountFrom(int accountFrom) {
+        this.accountFrom = accountFrom;
     }
 
-    public int getFromUserId() {
-        return fromUserId;
+    public int getAccountTo() {
+        return accountTo;
     }
 
-    public void setFromUserId(int fromUserId) {
-        this.fromUserId = fromUserId;
-    }
-
-    public int getToUserId() {
-        return toUserId;
-    }
-
-    public void setToUserId(int toUserId) {
-        this.toUserId = toUserId;
-    }
-
-    public String getAccountFromUsername() {
-        return accountFromUsername;
-    }
-
-    public void setAccountFromUsername(String accountFromUsername) {
-        this.accountFromUsername = accountFromUsername;
-    }
-
-    public String getAccountToUsername() {
-        return accountToUsername;
-    }
-
-    public void setAccountToUsername(String accountToUsername) {
-        this.accountToUsername = accountToUsername;
+    public void setAccountTo(int accountTo) {
+        this.accountTo = accountTo;
     }
 
     public BigDecimal getTransferAmount() {

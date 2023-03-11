@@ -5,12 +5,10 @@ import com.techelevator.tenmo.dao.TransferDao;
 import com.techelevator.tenmo.dao.UserDao;
 import com.techelevator.tenmo.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
@@ -31,11 +29,10 @@ public class AccountController {
         return accountDao.getAllAccounts();
     }
 
-    @RequestMapping(path = "/accounts/username", method = RequestMethod.GET)
-    public Account getAccountByUsername(String username) {
-        return accountDao.getAccountByUsername(username);
-    }
-
+    /*@RequestMapping(path = "/accounts/{id}", method = RequestMethod.GET)
+    public Account getAccountById(@PathVariable int id) {
+        return accountDao.getAccountById(id);
+    }*/
 
     @RequestMapping(path = "/user/{id}", method = RequestMethod.GET)
     public Account getAccountByUserId(@PathVariable int id) {
@@ -54,7 +51,6 @@ public class AccountController {
     public void deleteAccount(@PathVariable("id") int id) {
         accountDao.deleteAccount(id);
     }*/
-
 
 
     @RequestMapping(path = "/account/balance", method = RequestMethod.GET)

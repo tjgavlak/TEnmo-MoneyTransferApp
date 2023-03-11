@@ -2,10 +2,11 @@ package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.*;
 
-import com.techelevator.tenmo.services.AccountService;
-import com.techelevator.tenmo.services.AuthenticationService;
-import com.techelevator.tenmo.services.ConsoleService;
-import com.techelevator.tenmo.services.TransferService;
+import com.techelevator.tenmo.services.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -18,12 +19,15 @@ public class App {
 
     private User user;
     private AuthenticatedUser currentUser;
-    private final ConsoleService consoleService = new ConsoleService();
+    private final ConsoleService consoleService = new ConsoleService(API_BASE_URL);
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
     private final AccountService accountService = new AccountService(API_BASE_URL);
     private final TransferService transferService = new TransferService(API_BASE_URL);
+    private final UserService userService = new UserService(API_BASE_URL);
     private final static int TYPE_SEND = 2;
     private final static int APPROVED_STATUS = 2;
+    private final RestTemplate restTemplate = new RestTemplate();
+    public static int ID = 0;
 
 
     public static void main(String[] args) {
@@ -103,8 +107,23 @@ public class App {
 
 	private void viewTransferHistory() { //TODO Fix NullPointerException
 		// TODO Auto-generated method stub
+        /*int accountId = 0;
+
+        accountId = restTemplate.exchange(API_BASE_URL + "accounts/" + ID, HttpMethod.GET, makeAuthEntity(authToken), int.class).getBody();
+
+        Transfer[] transfers = null;
+        transfers = transferService.getTransfersByAccountId(accountId);
+        console.printTransfers(transfers, accountId);
+
+        int transferID = -1;
+        try {
+            transferID = console.getUserInputInteger("Please enter transfer ID to view details (0 to cancel)");
+            console.printTransferDetailByID(transferID, transfers);
+        } catch (Exception e){
+            System.out.println("Invalid transfer ID!");
+        }*/
         Transfer[] transferList = transferService.getTransferHistory(currentUser.getToken());
-        consoleService.printTransferListHeader(transferList);
+        consoleService.printTransferHistory(transferList);
         for (Transfer transfer : transferList) {
             System.out.println(transfer);
         }
@@ -117,16 +136,16 @@ public class App {
 
 	private void sendBucks() { //TODO Fix NullPointerException
 		// TODO Auto-generated method stub
-        List<Account> accounts = accountService.listAccounts(currentUser.getToken());
-        for (int i = 0; i < accounts.size(); i++) {
-            System.out.println(accounts.get(i));
+        User[] users = accountService.listUsers(currentUser.getToken());
+        for (int i = 0; i < users.length; i++) {
+            System.out.println(users[i]);
         }
         int toId = consoleService.promptForInt("Select userId from above list: ");
-        BigDecimal transferAmount = consoleService.promptForBigDecimal("Enter amount to transfer: ");
+        BigDecimal transferAmount = consoleService.promptForBigDecimal("Enter a dollar amount to transfer: ");
         Transfer transfer = new Transfer();
         transfer.setAmount(transferAmount);
-        transfer.setAccountToUsername(String.valueOf(toId));
-        transfer.setAccountFromUsername(currentUser.getUser().getUsername());
+        transfer.setAccountTo(toId);
+        transfer.setAccountFrom(currentUser.getUser().getId());
         transferService.sendMoney(currentUser.getToken(), transfer);
 	}
 
@@ -134,4 +153,11 @@ public class App {
 		// TODO Auto-generated method stub
 		
 	} //Optional
+
+
+    private HttpEntity makeAuthEntity(String authToken) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(authToken);
+        return new HttpEntity<>(headers);
+    }
 }

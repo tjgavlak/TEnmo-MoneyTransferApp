@@ -3,7 +3,6 @@ package com.techelevator.tenmo.model;
 import java.math.BigDecimal;
 
 public class Account {
-
     private int accountId;
     private int userId;
     private BigDecimal balance;
@@ -34,7 +33,7 @@ public class Account {
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
-
+    
     public int getUserId() {
         return userId;
     }

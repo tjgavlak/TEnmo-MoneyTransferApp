@@ -39,14 +39,15 @@ public class AccountService {
         return balance;
     }
 
-    public List<Account> listAccounts(String authToken){
-        List allAccounts = null;
+
+    public User[] listUsers(String authToken) {
+        User[] users = null;
         try {
-            allAccounts = restTemplate.exchange(BASE_URL + "users", HttpMethod.GET, makeAuthEntity(authToken), List.class).getBody();
+            users = restTemplate.exchange(BASE_URL + "users", HttpMethod.GET, makeAuthEntity(authToken), User[].class).getBody();
         } catch (ResourceAccessException | RestClientResponseException e) {
             System.out.println(e.getMessage());
         }
-        return allAccounts;
+        return users;
     }
 }
 
