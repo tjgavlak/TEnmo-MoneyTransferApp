@@ -9,7 +9,7 @@ public interface TransferDao {
 
     boolean sendMoney(int fromUserId, int toUserId, BigDecimal amount);
 
-    List<Transfer> getAllTransfers();
+    List<Transfer> listTransfers();
 
     List<Transfer> getAllTransfersByUserId(int accountId);
 

@@ -1,5 +1,6 @@
 package com.techelevator.tenmo.dao;
 import com.techelevator.tenmo.model.Account;
+import com.techelevator.tenmo.model.User;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResourceAccessException;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,12 +22,12 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public List<Account> getAllAccounts() {
+    public List<Account> listAccounts() {
         List<Account> accounts = new ArrayList<>();
         String sql = "SELECT user_id, account_id FROM account;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         while(results.next()){
-            accounts.add(mapRowToAccount(results));
+            accounts.add(mapRowToAccountNoBalance(results));
         }
         return accounts;
     }
@@ -56,10 +58,10 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public Account getAccountByUserId(int id) {
+    public Account getAccountByUserId(int accountId) {
         Account account = new Account();
         String sql = "SELECT * FROM account WHERE user_id = ?;";
-        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, id);
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, accountId);
         if (result.next()){
             account = mapRowToAccount(result);
         }
@@ -67,13 +69,13 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public BigDecimal addToBalance(BigDecimal deposit, int userId) {
-        Account account = getAccountByUserId(userId);
+    public BigDecimal addToBalance(BigDecimal deposit, int accountId) {
+        Account account = getAccountByUserId(accountId);
         String sql = "UPDATE account " +
                 "SET balance = balance + ? " +
                 "WHERE user_id = ?; ";
         try {
-            int output = jdbcTemplate.update(sql, deposit, userId);
+            int output = jdbcTemplate.update(sql, deposit, accountId);
             System.out.println("deposit rows affected: " + output);
         } catch (DataAccessException | ResourceAccessException e){
             e.printStackTrace();
@@ -100,9 +102,16 @@ public class JdbcAccountDao implements AccountDao {
 
     public Account mapRowToAccount(SqlRowSet result){
         Account account = new Account();
-        account.setId(result.getInt("account_id"));
+        account.setAccountId(result.getInt("account_id"));
         account.setUserId(result.getInt("user_id"));
         account.setBalance(result.getBigDecimal("balance"));
+        return account;
+    }
+
+    public Account mapRowToAccountNoBalance(SqlRowSet result){
+        Account account = new Account();
+        account.setAccountId(result.getInt("account_id"));
+        account.setUserId(result.getInt("user_id"));
         return account;
     }
 }

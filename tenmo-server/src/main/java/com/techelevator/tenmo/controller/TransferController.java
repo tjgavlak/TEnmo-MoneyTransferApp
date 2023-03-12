@@ -34,34 +34,30 @@ public class TransferController {
 
 
     @GetMapping(path = "")
-    public List<Transfer> getAllTransfers(Principal user){
+    public List<Transfer> listTransfers(Principal user){
         Account account = accountDao.getAccountByUsername(user.getName());
         return transferDao.getAllTransfersByUserId(account.getUserId());
     }
 
-    @GetMapping(path = "/users")
-    public List<Account> listAllAccounts() {
-        return accountDao.getAllAccounts();
-    }
 
-    @PostMapping(path = "")
-    public void sendTransfer(@RequestBody Transfer transfer, Principal fromUser) {
+    @PostMapping(path = "/send")
+    public void sendMoney(@RequestBody Transfer transfer, Principal fromUser) {
         Account fromAccount = accountDao.getAccountByUsername(fromUser.getName());
         int fromId = fromAccount.getUserId();
-        int id = transfer.getAccountTo();
+        int toId = transfer.getAccountTo();
         BigDecimal amount = transfer.getTransferAmount();
         System.out.println(transfer.toString());
         BigDecimal fromAccountBalance = accountDao.getBalance(fromAccount.getUserId());
         if (fromAccountBalance.compareTo(amount) <= 0) {
             System.out.println("You're too poor to send this much.");
         }
-        if (fromId == id){
+        if (fromId == toId){
             System.out.println("No, no, no.");
         } else {
-            transferDao.sendMoney(fromId,id, amount);
-            accountDao.addToBalance(amount,id);
+            transferDao.sendMoney(fromId,toId, amount);
+            accountDao.addToBalance(amount,toId);
             accountDao.subtractFromBalance(amount, fromId);
-            System.out.println("transfer complete");
+            System.out.println("Transfer complete");
         }
 
     }

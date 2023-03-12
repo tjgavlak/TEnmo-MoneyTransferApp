@@ -23,7 +23,7 @@ public class JdbcTransferDao implements TransferDao{
  }
 
  @Override
- public List<Transfer> getAllTransfers() {
+ public List<Transfer> listTransfers() {
   String sql = "SELECT * FROM transfer;";
   SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
 
@@ -51,7 +51,7 @@ public class JdbcTransferDao implements TransferDao{
  public boolean sendMoney(int fromUserId, int toUserId, BigDecimal amount) {
   String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, " +
           "account_from, account_to, amount) " +
-          "VALUES ( ?, ?, (SELECT account_id FROM account WHERE user_id = ?), " +
+          "VALUES ( 2, 2, (SELECT account_id FROM account WHERE user_id = ?), " +
           "(SELECT account_id FROM account WHERE user_id = ?), ?); ";
   try {
    int output = jdbcTemplate.update(sql, SEND_TYPE_ID, TRANSFER_STATUS_ID, fromUserId, toUserId, amount);

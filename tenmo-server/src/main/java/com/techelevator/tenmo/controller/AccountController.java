@@ -19,25 +19,33 @@ public class AccountController {
 
     @Autowired
     AccountDao accountDao;
-    @Autowired
-    TransferDao transferDao;
+    /*@Autowired
+    TransferDao transferDao;*/
     @Autowired
     UserDao userDao;
 
-    @RequestMapping(path = "/accounts", method = RequestMethod.GET)
-    public List<Account> listAllAccounts() {
-        return accountDao.getAllAccounts();
+    @GetMapping(path = "/users")
+    public List<Account> listAccounts() {
+        return accountDao.listAccounts();
     }
-
-    /*@RequestMapping(path = "/accounts/{id}", method = RequestMethod.GET)
-    public Account getAccountById(@PathVariable int id) {
-        return accountDao.getAccountById(id);
-    }*/
 
     @RequestMapping(path = "/user/{id}", method = RequestMethod.GET)
     public Account getAccountByUserId(@PathVariable int id) {
         return accountDao.getAccountByUserId(id);
     }
+
+    @RequestMapping(path = "/account/balance", method = RequestMethod.GET)
+    public BigDecimal getBalance(Principal principal) throws UsernameNotFoundException {
+        int userId = userDao.findIdByUsername(principal.getName());
+        return accountDao.getAccountByUserId(userId).getBalance();
+    }
+}
+
+
+/*@RequestMapping(path = "/accounts/{id}", method = RequestMethod.GET)
+    public Account getAccountById(@PathVariable int id) {
+        return accountDao.getAccountById(id);
+    }*/
 
 /*@ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "", method = RequestMethod.POST)
@@ -51,11 +59,3 @@ public class AccountController {
     public void deleteAccount(@PathVariable("id") int id) {
         accountDao.deleteAccount(id);
     }*/
-
-
-    @RequestMapping(path = "/account/balance", method = RequestMethod.GET)
-    public BigDecimal getBalance(Principal principal) throws UsernameNotFoundException {
-        int userId = userDao.findIdByUsername(principal.getName());
-        return accountDao.getAccountByUserId(userId).getBalance();
-    }
-}

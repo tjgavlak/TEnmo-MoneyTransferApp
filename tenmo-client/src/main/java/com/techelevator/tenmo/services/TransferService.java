@@ -38,10 +38,10 @@ public class TransferService {
         return returnedTransfer;
     }
 
-    public Transfer sendMoney(String authToken, Transfer newTransfer){
+    public Transfer sendMoney(String authToken, Transfer sendMoney){
         Transfer returnedTransfer = null;
         try{
-            returnedTransfer = restTemplate.exchange(BASE_URL + "send", HttpMethod.POST, makeTransferEntity(newTransfer, authToken), Transfer.class).getBody();
+            returnedTransfer = restTemplate.exchange(BASE_URL + "send", HttpMethod.POST, makeTransferEntity(sendMoney, authToken), Transfer.class).getBody();
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }

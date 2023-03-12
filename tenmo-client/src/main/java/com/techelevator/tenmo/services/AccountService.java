@@ -33,8 +33,8 @@ public class AccountService {
         BigDecimal balance = null;
         try {
             balance = restTemplate.exchange(BASE_URL + "account/balance", HttpMethod.GET, makeAuthEntity(authToken), BigDecimal.class).getBody();
-        } catch (RestClientResponseException | ResourceAccessException ex) {
-            BasicLogger.log(ex.getMessage());
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
         }
         return balance;
     }
@@ -45,7 +45,7 @@ public class AccountService {
         try {
             users = restTemplate.exchange(BASE_URL + "users", HttpMethod.GET, makeAuthEntity(authToken), User[].class).getBody();
         } catch (ResourceAccessException | RestClientResponseException e) {
-            System.out.println(e.getMessage());
+            BasicLogger.log(e.getMessage());
         }
         return users;
     }

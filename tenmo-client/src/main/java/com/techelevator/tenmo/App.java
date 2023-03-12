@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Scanner;
 
 import static com.techelevator.tenmo.services.AccountService.authToken;
 
@@ -23,7 +24,7 @@ public class App {
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
     private final AccountService accountService = new AccountService(API_BASE_URL);
     private final TransferService transferService = new TransferService(API_BASE_URL);
-    private final UserService userService = new UserService(API_BASE_URL);
+    /*private final UserService userService = new UserService(API_BASE_URL);*/
     private final static int TYPE_SEND = 2;
     private final static int APPROVED_STATUS = 2;
     private final RestTemplate restTemplate = new RestTemplate();
@@ -122,11 +123,11 @@ public class App {
         } catch (Exception e){
             System.out.println("Invalid transfer ID!");
         }*/
-        Transfer[] transferList = transferService.getTransferHistory(currentUser.getToken());
+        /*Transfer[] transferList = transferService.getTransferHistory(currentUser.getToken());
         consoleService.printTransferHistory(transferList);
         for (Transfer transfer : transferList) {
             System.out.println(transfer);
-        }
+        }*/
     }
 
 	private void viewPendingRequests() {
@@ -134,19 +135,34 @@ public class App {
 		
 	} //Optional
 
-	private void sendBucks() { //TODO Fix NullPointerException
+	private void sendBucks() { //TODO Fix Users = 0 and Names = null
 		// TODO Auto-generated method stub
-        User[] users = accountService.listUsers(currentUser.getToken());
-        for (int i = 0; i < users.length; i++) {
-            System.out.println(users[i]);
-        }
-        int toId = consoleService.promptForInt("Select userId from above list: ");
-        BigDecimal transferAmount = consoleService.promptForBigDecimal("Enter a dollar amount to transfer: ");
         Transfer transfer = new Transfer();
-        transfer.setAmount(transferAmount);
-        transfer.setAccountTo(toId);
-        transfer.setAccountFrom(currentUser.getUser().getId());
-        transferService.sendMoney(currentUser.getToken(), transfer);
+        Scanner scanner = new Scanner(System.in);
+
+        transfer.setTransferTypeId(TYPE_SEND);
+        transfer.setTransferStatusId(APPROVED_STATUS);
+
+        boolean goodInput = false;
+
+        while(!goodInput) {
+            consoleService.printUsers(accountService.listUsers(currentUser.getToken()));
+            System.out.println("Enter the ID of the user you would like to send to: ");
+            int toId = Integer.parseInt(scanner.nextLine());
+            transfer.setAccountTo(toId);
+            System.out.println("Enter amount to send: ");
+            try {
+                double sendAmount = Double.parseDouble(scanner.nextLine());
+                BigDecimal sendAmountBD = BigDecimal.valueOf(sendAmount);
+                transfer.setAmount(sendAmountBD);
+                Transfer newTransfer = transferService.sendMoney(authToken, transfer);
+                System.out.println();
+                System.out.println("Transfer Successful.");
+                System.out.println(newTransfer.toString());
+            } catch(Exception e) {
+                System.out.println(e); //TODO Currently NullPointerException
+            }
+        }
 	}
 
 	private void requestBucks() {

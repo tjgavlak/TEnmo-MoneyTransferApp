@@ -84,7 +84,7 @@ public class ConsoleService {
         }
     }
 
-    public void printUsers(List<User> users) {
+    public void printUsers(User[] users) {
         if (users != null) {
             System.out.println("-------------------------------------------");
             System.out.println("Users");
@@ -96,26 +96,6 @@ public class ConsoleService {
             System.out.println("---------\n");
         }
     }
-
-
-
-        /*String currentTo = "";
-        String currentFrom = "";
-
-        for (Transfer transfer : transfers) {
-            System.out.print(transfer.getTransferId() + "        ");
-            if (transfer.getAccountFrom() == accountId) {
-                currentTo = restTemplate.exchange(BASE_URL + "users/account/" + transfer.getAccountTo(), HttpMethod.GET, makeAuthEntity(),  String.class).getBody();
-                System.out.print("To: " + currentTo);
-            }
-            else {
-                currentFrom = restTemplate.exchange(BASE_URL + "users/account/" + transfer.getAccountFrom(), HttpMethod.GET, makeAuthEntity(),  String.class).getBody();
-                System.out.print("From: " + currentFrom);
-            }
-            System.out.println("    \t$" + transfer.getAmount());
-        }
-        System.out.println("---------");*/
-
 
     public UserCredentials promptForCredentials() {
         String username = promptForString("Username: ");

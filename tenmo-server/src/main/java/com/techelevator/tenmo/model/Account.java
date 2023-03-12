@@ -4,19 +4,19 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public class Account {
-    private int id;
+    private int accountId;
     @NotNull
     private int userId;
     @NotNull
     private BigDecimal balance;
 
 
-    public int getId() {
-        return id;
+    public int getAccountId() {
+        return accountId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
     }
 
     public int getUserId() {
